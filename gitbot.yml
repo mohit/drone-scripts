@@ -1,0 +1,9 @@
+repos:
+  - "git@github.com:mohit/drone-scripts.git"
+change_cmd:
+  path: "./drone_yml_update.py"
+post_cmds:
+  - path: "git"
+    args: ["push", "-f", "origin", "HEAD:dronev3"]
+  - path: "hub"
+    args: ["pull-request", "-m", "Update .drone.yml to v3", "-b", "mohit:master", "-h", "mohit:dronev3"]
