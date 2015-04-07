@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import argparse
 import fileinput
 import yaml
@@ -26,7 +28,8 @@ def update_publish(drone_yml):
         if key == 'docker':
             drone_yml['publish']['docker']['tags'] = ['$(git rev-parse --short HEAD)']
 
-        remove_keys = ['push_latest', 'docker_publish', 'branch', 'docker_port']
+        remove_keys = ['push_latest', 'docker_publish', 
+                       'branch', 'docker_port', 'docker_version']
         for remove_key in remove_keys:
             if remove_key in drone_yml['publish'][key]:
                 del drone_yml['publish'][key][remove_key]
@@ -50,14 +53,15 @@ def replace_hipchat_with_slack(drone_yml):
     return True
 
 
-if __init__ == '__main__':
+if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert .drone.yml files from < 2.0 to v3 format')
-    parser.add_argument('path', type=str, required=True)
+    parser.add_argument('path', type=str)
     args = parser.parse_args()
+    print args.path
 
     replace_template_vars(args.path + '/.drone.yml')
 
-    drone_yml = yaml.load(open(args.path + './.drone.yml').read())
+    drone_yml = yaml.load(open(args.path + '/.drone.yml').read())
 
     result = "Update .drone.yml to v3: publish {}, notify: {}".format(
             update_publish(drone_yml),
@@ -66,4 +70,4 @@ if __init__ == '__main__':
     output = file(args.path + '/.drone.yml', 'w')
     yaml.dump(drone_yml, output, default_flow_style=False, indent=2)
 
-    return result
+    print result
