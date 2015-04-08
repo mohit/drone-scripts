@@ -11,7 +11,7 @@ def convert_var(group):
 
 
 def replace_template_vars(filename):
-    for line in fileinput.input('./.drone.yml', inplace=True):
+    for line in fileinput.input(filename, inplace=True):
         line = re.sub(r"{{(\w+)}}", convert_var, line)
         print line,
 
@@ -57,7 +57,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert .drone.yml files from < 2.0 to v3 format')
     parser.add_argument('path', type=str)
     args = parser.parse_args()
-    print args.path
 
     replace_template_vars(args.path + '/.drone.yml')
 
