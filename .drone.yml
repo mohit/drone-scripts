@@ -1,20 +1,20 @@
-image: google/debian:wheezy
 env:
-  - param={{value}}
+- param=$$value
+image: google/debian:wheezy
 publish:
   docker:
-    branch: some-branch
-    docker_port: 4243
-    docker_server: {{docker_server}}
-    docker_version: 0.10.0
+    docker_server: $$docker_server
     email: $$docker_email
     image_name: mohit/temp-container
     password: $$docker_password
-    push_latest: false
     registry_login: true
-    username: {{docker_username}}
+    tags:
+    - $(git rev-parse --short HEAD)
+    username: $$docker_username
+    when:
+      branch: some-branch
 script:
-  - make test
-  - make build
+- make test
+- make build
 services:
-  - mongo:2.6
+- mongo:2.6
