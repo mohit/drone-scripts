@@ -40,8 +40,8 @@ def update_publish(drone_yml):
 def replace_hipchat_with_slack(drone_yml):
     if not 'notify' in drone_yml:
         return False
-        if not 'hipchat' in drone_yml['notify']:
-            return False
+    if not 'hipchat' in drone_yml['notify']:
+        return False
 
     del drone_yml['notify']['hipchat']
     drone_yml['notify']['slack'] = dict(
