@@ -27,9 +27,10 @@ def update_publish(drone_yml):
 
         if key == 'docker':
             drone_yml['publish']['docker']['tags'] = ['$(git rev-parse --short HEAD)']
+            drone_yml['publish']['docker']['docker_host'] = "$$docker_server"
 
         remove_keys = ['push_latest', 'docker_publish', 
-                       'branch', 'docker_port', 'docker_version']
+                       'branch', 'docker_port', 'docker_version', 'docker_server']
         for remove_key in remove_keys:
             if remove_key in drone_yml['publish'][key]:
                 del drone_yml['publish'][key][remove_key]

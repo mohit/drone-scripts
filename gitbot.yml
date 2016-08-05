@@ -1,9 +1,10 @@
 repos:
-  - "git@github.com:mohit/drone-scripts.git"
+  # already added these repos to drone
+  - git@github.com:Clever/tutum-docker-grafana
 change_cmd:
   path: "./drone_yml_update.py"
 post_cmds:
   - path: "git"
-    args: ["push", "-f", "origin", "HEAD:dronev3"]
+    args: ["push", "-f", "origin", "HEAD:dronev3-fixup"]
   - path: "hub"
-    args: ["pull-request", "-m", "Update .drone.yml to v3", "-b", "Clever:master", "-h", "Clever:dronev3"]
+    args: ["pull-request", "-m", "Update .drone.yml to v3", "-b", "Clever:clever", "-h", "Clever:dronev3-fixup"]
